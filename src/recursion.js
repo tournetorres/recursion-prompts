@@ -293,8 +293,12 @@ var fibonacci = function(index, result = [0, 1]) {
 // nthFibo(7); // 13
 // nthFibo(3); // 2
 var nthFibo = function(index, result = [0, 1]) {
-  if (index < 1) {
+  if (index === 0) {
+    return 0;
+  }
+  if (index < 0) {
     return null;
+
   }
   if (index === result.length - 1) {
     return result[index];
@@ -349,15 +353,134 @@ var flatten = function(arrays) {
 
 // 30. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {'p':1, 'o':2, 't':2, 'a':1}
-var letterTally = function(str, obj) {
+
+each = function(collection, iterator) {
+    if (Array.isArray(collection)) {
+        for (var i = 0; i < collection.length; i++) {
+            iterator(collection[i], i, collection);
+        }
+    } else {
+        for (var key in collection) {
+            iterator(collection[key], key, collection);
+        }
+    }
 };
+
+reduce = function(collection, iterator, accumulator) {
+    if (arguments.length === 2) {
+        var test = true;
+    }
+    each(collection, function(value, key, collection) {
+        if (test) {
+            accumulator = value;
+            test = false;
+        } else {
+            accumulator = iterator(accumulator, value, key, collection);
+        }
+    });
+    return accumulator;
+};
+
+
+var defaults = function(obj) {
+    var args = Array.from(arguments);
+    var destinationObj = {};
+
+    if (args.length > 1) {
+        each(args, function(objs, i, args) {
+            each(objs, function(value, key, objs) {
+                if (obj[key] === undefined) {
+                    obj[key] = value;
+                }
+
+            });
+        });
+        return obj;
+    }
+}
+
+
+extend = function(obj) {
+    var args = Array.from(arguments);
+
+    if (args.length > 1) {
+        return reduce(args, function(memo, nextObject) {
+            nextObject === memo;
+            return Object.assign(memo, nextObject);
+        })
+    }
+};
+
+
+var letterTally = function(str, obj = {}) {
+  // return dogs["breed"].reduce(function(memo, next) {
+  //   console.log(next);
+  // })
+  // var counter = 0;
+
+  // str = str.toString().split("");
+
+  //  console.log(typeof str[0].toString());
+  // console.log(str);
+  // console.log(str);
+  // console.log(obj);
+
+  if (str.length === 0) {
+    return obj;
+  }
+
+
+
+
+
+console.log(obj);
+//
+// for (var str[0] in obj) {
+  if (obj[str[0]] === undefined) {
+    obj[str[0]] = 1;
+  }
+
+  else {
+    obj[str[0]]+=1
+  }
+
+// console.log(Object.keys(obj));
+
+  // if (obj.hasOwnProperty(str[0].toString())) {
+// for (var i = 0; i < (Object.keys(obj)).length; i++) {
+
+  // if (Object.keys(obj)[i]=== str[0].toString()) {
+  //     obj[str[0].toString()]
+
+// // if(key === str[0].toString()) {
+//   // obj[key.toString()] = counter + 1;
+//         // k = str[0]
+//         //     console.log(k);
+//         // obj[k] = counter + 1;
+//
+//   // if (key === obj[str[0].toString()]) {
+//
+// console.log(typeof Object.keys(obj)[i])
+
+
+// obj[str[0]] = counter;
+
+// console.log(obj);
+
+
+  return letterTally(str.slice(1), obj);
+
+
+
+}
+
 
 var dogs = {
   "breed" : "dachshund",
   "slang" : "weenie"
 }
-
-console.log(letterTally(dogs.breed, ))
+//
+// console.log(letterTally("hello"));
 
 
 // 31. Eliminate consecutive duplicates in a list.  If the list contains repeated
@@ -365,9 +488,21 @@ console.log(letterTally(dogs.breed, ))
 // elements should not be changed.
 // Example: compress([1, 2, 2, 3, 4, 4, 5, 5, 5]) // [1, 2, 3, 4, 5]
 // Example: compress([1, 2, 2, 3, 4, 4, 2, 5, 5, 5, 4, 4]) // [1, 2, 3, 4, 2, 5, 4]
-var compress = function(list) {
+var compress = function(list, result = []) {
+
+  if (list.length === 0) {
+    return result;
+  }
+
+  if (list[0] !== list[1]) {
+    result.push(list[0]);
+  }
+  // console.log(list.slice(0,list.length-1));
+  return compress(list.slice(1), result);
+
 };
 
+// console.log(compress([3,3,5,1,2,2,4]))
 // 32. Augument every element in a list with a new value where each element is an array
 // itself.
 // Example: augmentElements([[],[3],[7]], 5); // [[5],[3,5],[7,5]]
@@ -377,22 +512,98 @@ var augmentElements = function(array, aug) {
 // 33. Reduce a series of zeroes to a single 0.
 // minimizeZeroes([2,0,0,0,1,4]) // [2,0,1,4]
 // minimizeZeroes([2,0,0,0,1,0,0,4]) // [2,0,1,0,4]
-var minimizeZeroes = function(array) {
+var minimizeZeroes = function(array, result = []) {
+    console.log[result];
+  if (array.length === 0) {
+    return result;
+  }
+  if (array[0] !== 0) {
+    result.push(array[0]);
+  }
+  if (array[0] === 0 && array[1] !== 0) {
+      result.push(array[0]);
+  }
+    return minimizeZeroes(array.slice(1), result);
+  // console.log(list.slice(0,list.length-1));
+
+
 };
+
+// console.log(minimizeZeroes([2,0,0,0,1,0,1,0,4]))
 
 // 34. Alternate the numbers in an array between positive and negative regardless of
 // their original sign.  The first number in the index always needs to be positive.
 // alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
 // alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
-var alternateSign = function(array) {
-};
+var alternateSign = function(array, result = [], index = 0) {
+    if (array.length === 0) {
 
+      return result;
+    }
+
+
+    if (result.length === 0 ) {
+      if (array[0] < 0) {
+          result.push(-(array[0]));
+          console.log("first recursion index", array[0]);
+      }
+    else {
+      result.push(array[0]);
+      console.log("if result is not empty and index is positive", array[0])
+
+      }
+    }
+
+    else if (result.length%2 === 0 && result.length !== 0) {
+      console.log("length of result if even and > one", result.length)
+      if (array[0] < 0) {
+          result.push(-(array[0]));
+
+      }
+      else {
+          result.push((array[0]));
+
+      }
+    }
+
+    else if (result.length%2 !== 0) {
+      if (array[0] > 0) {
+          result.push(-(array[0]));
+
+      }
+      else {
+          result.push((array[0]));
+
+      }
+    }
+
+
+    return alternateSign(array.slice(1), result);
+
+
+};
+// console.log(alternateSign([-2,7,8,3,-1,4]));
 // 35. Given a string, return a string with digits converted to their word equivalent.
 // Assume all numbers are single digits (less than 10).
 // numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
-var numToText = function(str) {
-};
+var numToText = function(str, result = []) {
 
+  if (typeof str === "string") {
+    str = str.split(" ");
+  }
+  if (str.length === 0) {
+    return [];
+  }
+  var array = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+  for (var i =0; i < array.length; i++) {
+  if (str[0] === i.toString()) {
+    str[0] = array[i];
+  }
+}
+    return result.concat(str[0], numToText(str.slice(1))).join(" ");
+
+};
+console.log(numToText("I have nothing 2 share 4 you"));
 // *** EXTRA CREDIT ***
 
 // 36. Return the number of times a tag occurs in the DOM.
