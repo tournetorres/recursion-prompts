@@ -163,7 +163,41 @@ var multiply = function(x, y) {
 // 13. Write a function that divides two numbers without using the / operator  or
 // JavaScript's Math object.
 var divide = function(x, y) {
-};
+//       if (x > y) {
+//           return 1 + divide(x-y, y);
+//         }
+//       else {
+//           return 0;
+//         }
+//
+// if (x > y) {
+//
+//
+//
+// }
+// result  += 1
+//   return divide (x -y, y);
+// }
+
+     if( y === 0 )
+     {
+         return 0;
+     }
+     else if(x-y === 0)
+     {
+        return 1;
+     }
+     else if( x < y)
+     {
+        return 0;
+     }
+     else
+     {
+         return ( 1 + divide(x-y, y) );
+     }
+ }
+
+// console.log(divide(12,4));
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers.  The GCD of two
 // integers is the greatest integer that divides both x and y with no remainder.
@@ -171,8 +205,22 @@ var divide = function(x, y) {
 // http://www.cse.wustl.edu/~kjg/cse131/Notes/Recursion/recursion.html
 // https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
 var gcd = function(x, y) {
-};
 
+
+  if (x < 0) {
+    return null;
+}
+   if(y === 0) {
+          return x;
+   }
+
+
+   else {
+     return gcd(y, x%y);
+
+}
+}
+// console.log(gcd(4,36));
 // 15. Write a function that compares each character of two strings and returns true if
 // both are identical.
 // compareStr('house', 'houses') // false
@@ -232,6 +280,64 @@ var countOccurrence = function(array, value) {
 return countOccurrence(array.slice(1), value, counter, result);
 };
 
+var each = function(collection, iterator) {
+    if (Array.isArray(collection)) {
+        for (var i = 0; i < collection.length; i++) {
+            iterator(collection[i], i, collection);
+        }
+    } else {
+        for (var key in collection) {
+            iterator(collection[key], key, collection);
+        }
+    }
+};
+
+var reduce = function(collection, iterator, accumulator) {
+    if (arguments.length === 2) {
+        var test = true;
+    }
+    each(collection, function(value, key, collection) {
+        if (test) {
+            accumulator = value;
+            test = false;
+        } else {
+            accumulator = iterator(accumulator, value, key, collection);
+        }
+    });
+    return accumulator;
+};
+
+
+var defaults = function(obj) {
+    var args = Array.from(arguments);
+    var destinationObj = {};
+
+    if (args.length > 1) {
+        each(args, function(objs, i, args) {
+            each(objs, function(value, key, objs) {
+                if (obj[key] === undefined) {
+                    obj[key] = value;
+                }
+
+            });
+        });
+        return obj;
+    }
+}
+
+
+var extend = function(obj) {
+    var args = Array.from(arguments);
+
+    if (args.length > 1) {
+        return reduce(args, function(memo, nextObject) {
+            nextObject === memo;
+            return Object.assign(memo, nextObject);
+        })
+    }
+};
+
+
 // 20. Write a recursive version of map.
 // rMap([1,2,3], timesTwo); // [2,4,6]
 var rMap = function(array, callback) {
@@ -249,21 +355,78 @@ var rMap = function(array, callback) {
 // var testobj = {'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}},'y':'e'};
 // countKeysInObj(testobj, 'r') // 1
 // countKeysInObj(testobj, 'e') // 2
-var countKeysInObj = function(obj, key) {
-// console.log(count);
+var countKeysInObj = function(obj, target, arr = []) {
+
+  if (obj[target]) {
+    arr.push(target);
+  }
+
+  for (var key in obj) {
+     if (typeof obj[key] === "object") {
+       countKeysInObj(obj[key], target, arr);
+     }
+  }
+  return arr.length;
+
+
+//       var recurser = function (obj, target, result =0) {
+//
+//         console.log(result);
+//         for (var key in obj) {
+//           if (obj.hasOwnProperty(target)) {
+//             result+=1;
+//           }
+//             if (typeof obj[key] === "object") {
+//
+//                 result + recurser(obj[key], target, result)
+//
+//                     }
+//                 }
+//
+//       }
+//
+//
+//     recurser(obj, target, result);
+//       return result;
+// }
+
+
 
 
 
 };
 
-// console.log(countKeysInObj({'hey': 'you', 'what\'s': 'up', 'do': 'you'}, 'you'));
+
+// console.log(countKeysInObj({'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}},'y':'e'}, 'e'));
 
 // 22. Write a function that counts the number of times a value occurs in an object.
 // var testobj = {'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}},'y':'e'};
 // countValuesInObj(testobj, 'r') // 2
 // countValuesInObj(testobj, 'e') // 1
-var countValuesInObj = function(obj, value) {
+var countValuesInObj = function(obj, target, arr=[]) {
+
+
+  // console.log(arr);
+
+  for (var key in obj) {
+    if (obj[key] === target) {
+      arr.push(target);
+    }
+
+
+       if (typeof obj[key] === "object") {
+         countValuesInObj(obj[key], target, arr);
+       }
+     }
+
+     console.log(arr);
+    return arr.length;
+
+
+
 };
+
+console.log(countValuesInObj({'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}},'y':'e'}, 'e'));
 
 // 23. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
@@ -354,62 +517,6 @@ var flatten = function(arrays) {
 // 30. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {'p':1, 'o':2, 't':2, 'a':1}
 
-each = function(collection, iterator) {
-    if (Array.isArray(collection)) {
-        for (var i = 0; i < collection.length; i++) {
-            iterator(collection[i], i, collection);
-        }
-    } else {
-        for (var key in collection) {
-            iterator(collection[key], key, collection);
-        }
-    }
-};
-
-reduce = function(collection, iterator, accumulator) {
-    if (arguments.length === 2) {
-        var test = true;
-    }
-    each(collection, function(value, key, collection) {
-        if (test) {
-            accumulator = value;
-            test = false;
-        } else {
-            accumulator = iterator(accumulator, value, key, collection);
-        }
-    });
-    return accumulator;
-};
-
-
-var defaults = function(obj) {
-    var args = Array.from(arguments);
-    var destinationObj = {};
-
-    if (args.length > 1) {
-        each(args, function(objs, i, args) {
-            each(objs, function(value, key, objs) {
-                if (obj[key] === undefined) {
-                    obj[key] = value;
-                }
-
-            });
-        });
-        return obj;
-    }
-}
-
-
-extend = function(obj) {
-    var args = Array.from(arguments);
-
-    if (args.length > 1) {
-        return reduce(args, function(memo, nextObject) {
-            nextObject === memo;
-            return Object.assign(memo, nextObject);
-        })
-    }
-};
 
 
 var letterTally = function(str, obj = {}) {
@@ -603,7 +710,7 @@ var numToText = function(str, result = []) {
     return result.concat(str[0], numToText(str.slice(1))).join(" ");
 
 };
-console.log(numToText("I have nothing 2 share 4 you"));
+// console.log(numToText("I have nothing 2 share 4 you"));
 // *** EXTRA CREDIT ***
 
 // 36. Return the number of times a tag occurs in the DOM.
