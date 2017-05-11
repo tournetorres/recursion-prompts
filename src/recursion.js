@@ -180,41 +180,36 @@ var multiply = function(x, y) {
 // 13. Write a function that divides two numbers without using the / operator  or
 // JavaScript's Math object.
 var divide = function(x, y) {
-//       if (x > y) {
-//           return 1 + divide(x-y, y);
-//         }
-//       else {
-//           return 0;
-//         }
-//
-// if (x > y) {
-//
-//
-//
-// }
-// result  += 1
-//   return divide (x -y, y);
-// }
 
-     if( y === 0 )
-     {
-         return 0;
+
+     if( x === 0 && y === 0) {
+         return NaN;
      }
-     else if(x-y === 0)
-     {
+
+
+    if (x < y) {
+      return 0;
+    }
+
+     if(x-y === 0) {
         return 1;
      }
-     else if( x < y)
-     {
-        return 0;
-     }
-     else
-     {
-         return ( 1 + divide(x-y, y) );
+
+      else if( x> y && y < 0 ) {
+          return 0;
+       } 
+
+
+      else if (y < 0 ) {
+         -(divide(x + y, y));
+       }
+
+       else {
+       return ( 1 + divide(x-y, y) );
      }
  }
 
-// console.log(divide(12,4));
+console.log(divide(0, 32));
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers.  The GCD of two
 // integers is the greatest integer that divides both x and y with no remainder.
@@ -235,7 +230,7 @@ var gcd = function(x, y) {
    else {
      return gcd(y, x%y);
 
-}
+   }
 }
 // console.log(gcd(4,36));
 // 15. Write a function that compares each character of two strings and returns true if
@@ -441,14 +436,14 @@ var replaceKeysInObj = function(obj, k, newK) {
     if (typeof obj[key] === "object") {
       replaceKeysInObj(obj[key], k, newK);
     }
-    
+
     console.log(obj);
 
   }
   return obj;
 }
 
-console.log(replaceKeysInObj({'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}}, 'y':'e'}, 'e', 'f'));
+// console.log(replaceKeysInObj({'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}}, 'y':'e'}, 'e', 'f'));
 
 // 24. Get the first n Fibonacci numbers.  In the Fibonacci Sequence, each subsequent
 // number is the sum of the previous two.
@@ -623,7 +618,7 @@ var augmentElements = function(array, aug, counter = 0) {
 
 
 };
-console.log(augmentElements([[],[3],[7]], 5));
+// console.log(augmentElements([[],[3],[7]], 5));
 // 33. Reduce a series of zeroes to a single 0.
 // minimizeZeroes([2,0,0,0,1,4]) // [2,0,1,4]
 // minimizeZeroes([2,0,0,0,1,0,0,4]) // [2,0,1,0,4]
