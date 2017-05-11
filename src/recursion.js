@@ -197,7 +197,7 @@ var divide = function(x, y) {
 
       else if( x> y && y < 0 ) {
           return 0;
-       } 
+       }
 
 
       else if (y < 0 ) {
@@ -724,9 +724,29 @@ var tagCount = function(tag, node) {
 // Sample array:  [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 // console.log(binarySearch(5)) will return '5'
 
-var binarySearch = function(array, target, min, max) {
-};
+var binarySearch = function(array, target, min, max, n = 0) {
+  // Let min = 0 and max = n-1.
+  // Compute guess as the average of max and min, rounded down (so that it is an integer).
+  // If array[guess] equals target, then stop. You found it! Return guess.
+  // If the guess was too low, that is, array[guess] < target, then set min = guess + 1.
+  // Otherwise, the guess was too high. Set max = guess - 1.
+  // Go back to step 2.
 
+  min = 0;
+  max = n -1;
+
+  if (array[n] === target) {
+    return n;
+  }
+  if (array[n] < target) {
+    min = n + 1;
+  }
+
+  max = n -1;
+  return binarySearch(array, target, min, max, n -1);
+
+};
+  console.log(binarySearch(3));
 // 38. Write a merge sort function.
 // Sample array:  [34,7,23,32,5,62]
 // Sample output: [5,7,23,32,34,62]
