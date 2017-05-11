@@ -422,170 +422,33 @@ var countValuesInObj = function(obj, target, arr=[]) {
 
 // 23. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
-var replaceKeysInObj = function(obj, key, newKey, newObj = {}) {
+var replaceKeysInObj = function(obj, k, newK) {
 //
 
 //assign newKey to new object
 
 //find all keys that are not key, and push those key:value pairs.
 
-newObj[newKey] = undefined;
+//find all newKeys, replace
 
-console.log(newObj);
+  for (var key in obj) {
+
+    if (key === k) {
+      obj[newK] = obj[key];
+      delete obj[key];
+    }
+
+    if (typeof obj[key] === "object") {
+      replaceKeysInObj(obj[key], k, newK);
+    }
+    
+    console.log(obj);
+
+  }
+  return obj;
 }
 
-//  for(var k in obj){
-//    if (k === key) {
-//
-//     obj[newKey] = obj[k];
-//   // console.log(obj);
-// }
-//   if (typeof obj[k] === "object") {
-//     replaceKeysInObj(obj[k], key, newKey, newObj)
-//   }
-//
-// }
-//
-// }
-//
-//   }
-// }
-//   return extend(obj, newObj);
-// }
-  // var secondObj = {};
-  // unction iterateObj(obj){
-  //   for(var k in obj){
-  //     if(obj.hasOwnProperty(k)){
-  //       if(typeof obj[k] === 'object'){
-  //         return replaceKeysInObj(obj[k]);
-  //       }
-  //       else if(secondObj[k]!=undefined){
-  //         obj[k] = secondObj[k]
-  //         console.log(secondObj);
-  //       }
-  //     }
-  //   }
-  // }
-  // // replaceKeysInObj(obj)
-  //
-  // console.log(obj);
-
-
-//   var convertKey = function(key_to_convert, key_to_replace) {
-//
-//        if (key.indexOf(obj) != -1) {
-//            key = newKey.replace(/_/g,'-');
-//           //  key = stringToCamelCase(key_to_convert);
-//           obj[key] = obj[key];
-//            delete obj[newKey];
-//        }
-//    }
-//    var i = 0;
-//        for (var key in item_to_convert) {
-//            if (typeof item_to_convert[key] != 'undefined') {
-//                if (typeof item_to_convert[key] === 'object' && !(item_to_convert[key] instanceof Array)) {
-//                    self.ConvertKeysToCamelCase(item_to_convert[key]);
-//            }
-//            if (item_to_convert[key] instanceof Array) {
-//                for (var i = 0; i < item_to_convert[key].length; i++) {
-//                    self.ConvertKeysToCamelCase(item_to_convert[key][i]);
-//                }
-//            }
-//            var temp_string = key;
-//            convertKey(temp_string, key);
-//        }
-//        i = ++i;
-//    }
-//    return item_to_convert;
-// };
-
-//   var mapNewKey = {
-//   key: newKey
-// };
-//
-// // function refit_keys(o){
-//     // var build, destKey, ix, value;
-//
-//     // build = {};
-//     for (k in obj) {
-//         // Get the destination key
-//         mapNewKey[newKey] || k;
-//
-//         // Get the value
-//         newKey = obj[key];
-//
-//         // If this is an object, recurse
-//         if (typeof value === "object") {
-//             replaceKeysInObj(value, key, newKey);
-//         }
-//
-//         // Set it on the result using the destination key
-//         obj[newKey] = newKey;
-//     }
-//     return obj;
-// }
-
-// There are a couple of problems there.
-// One is that you're falling prey to The Horror of Implicit Globals by failing to declare your build variable in the function.
-// But the logic has issues as well, here's a minimal reworking:
-// var keys_short = ['ch','d','u','tz'];
-// var keys_long = ['children','data','user_id','time_zone'];
-// function refit_keys(o, ){
-  // var obje;
-  // obje = {}
-//   for (var k in obj) {
-//     // console.log(k);
-//     // console.log(k === key)
-//     if (k === key) {
-//     // if (obj.hasOwnProperty(key)) {
-//       // console.log(key);
-//       // newKey= obj[newKey];
-//         //
-//         // obj.newKey;
-//         // obj.newKey = key;
-//                 // obj[key] = value;
-//         // console.log(value)
-//         // console.log(obj.key);
-//         // console.log(newKey);
-//     // }
-//
-//
-//
-//     if (typeof obj[key] === "object") {
-//         replaceKeysInObj(obj.key, key, newKey);
-//     }
-//     // obj[newKey] = obj[key];
-//   }
-// }
-//
-//   return obj;
-//     var build, key, destKey, ix, value;
-//
-//     build = {};
-//     for (key in obj) {
-//         // Get the destination key
-//         ix = keys_short.indexOf(key);
-//         destKey = ix === -1 ? key : keys_long[ix];
-//
-//         // Get the value
-//         value = o[key];
-//
-//         // If this is an object, recurse
-//         if (typeof value === "object") {
-//             value = refit_keys(value);
-//         }
-//
-//         // Set it on the result using the destination key
-//         build[destKey] = value;
-//     }
-//     return build;
-// }
-//
-
-
-// };
-
-// console.log(replaceKeysInObj({'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}}, 'y':'e'}, 'e', 'f'));
+console.log(replaceKeysInObj({'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}}, 'y':'e'}, 'e', 'f'));
 
 // 24. Get the first n Fibonacci numbers.  In the Fibonacci Sequence, each subsequent
 // number is the sum of the previous two.
@@ -688,25 +551,9 @@ var flatten = function(arrays) {
 
 
 var letterTally = function(str, obj = {}) {
-  // return dogs["breed"].reduce(function(memo, next) {
-  //   console.log(next);
-  // })
-  // var counter = 0;
-
-  // str = str.toString().split("");
-
-  //  console.log(typeof str[0].toString());
-  // console.log(str);
-  // console.log(str);
-  // console.log(obj);
-
-
   if (str.length === 0) {
     return obj;
   }
-
-
-
 
 
 console.log(obj);
@@ -720,28 +567,6 @@ console.log(obj);
     obj[str[0]]+=1
   }
 
-// console.log(Object.keys(obj));
-
-  // if (obj.hasOwnProperty(str[0].toString())) {
-// for (var i = 0; i < (Object.keys(obj)).length; i++) {
-
-  // if (Object.keys(obj)[i]=== str[0].toString()) {
-  //     obj[str[0].toString()]
-
-// // if(key === str[0].toString()) {
-//   // obj[key.toString()] = counter + 1;
-//         // k = str[0]
-//         //     console.log(k);
-//         // obj[k] = counter + 1;
-//
-//   // if (key === obj[str[0].toString()]) {
-//
-// console.log(typeof Object.keys(obj)[i])
-
-
-// obj[str[0]] = counter;
-
-// console.log(obj);
 
 
   return letterTally(str.slice(1), obj);
@@ -782,27 +607,21 @@ var compress = function(list, result = []) {
 // 32. Augument every element in a list with a new value where each element is an array
 // itself.
 // Example: augmentElements([[],[3],[7]], 5); // [[5],[3,5],[7,5]]
-var augmentElements = function(array, aug) {
-  console.log(array);
-  if (array.length === 0) {
-    return;
+var augmentElements = function(array, aug, counter = 0) {
+  // if (array
+  if (array.length === counter) {
+    return array;
   }
-  array.forEach(function(el){
-    el.push(aug);
 
-    if(typeof el === "array") {
-    augmentElements(array.slice(el), aug)
-    }
-  })
-  // for (var i =0; i < array.length; i++) {
-  //       array[i].push(aug);
-  //       // console.log(array[i]);
-  //       if(typeof array[i] === "array") {
-  //        augmentElements(array.slice(1), aug)
-  //        }
-  // }
 
-return array;
+  if (Array.isArray(array[counter])) {
+    array[counter].push(aug);
+    counter+=1;
+  }
+
+  return augmentElements(array, aug, counter);
+
+
 };
 console.log(augmentElements([[],[3],[7]], 5));
 // 33. Reduce a series of zeroes to a single 0.
