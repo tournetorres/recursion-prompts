@@ -140,9 +140,26 @@ return false;
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
+ if(x < 0 && y < 0){
+   x = -x;
+   y = -y;
+   return -modulo(x, y);
+ }
 
-  return x -(y * (Math.floor((x/y))));
+ if(x< 0){
+   x = -x;
+   return -modulo(x, y);
+ }
 
+ if(y<0){
+   y = -y;
+   return -modulo(x, y);
+ }
+
+if(x === 0) return y === 0 ? NaN : 0;
+if(x < y) return x;
+if(y === 1) return 0;
+return modulo(x-y, y)
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator  or
@@ -369,31 +386,6 @@ var countKeysInObj = function(obj, target, arr = []) {
   return arr.length;
 
 
-//       var recurser = function (obj, target, result =0) {
-//
-//         console.log(result);
-//         for (var key in obj) {
-//           if (obj.hasOwnProperty(target)) {
-//             result+=1;
-//           }
-//             if (typeof obj[key] === "object") {
-//
-//                 result + recurser(obj[key], target, result)
-//
-//                     }
-//                 }
-//
-//       }
-//
-//
-//     recurser(obj, target, result);
-//       return result;
-// }
-
-
-
-
-
 };
 
 
@@ -426,12 +418,174 @@ var countValuesInObj = function(obj, target, arr=[]) {
 
 };
 
-console.log(countValuesInObj({'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}},'y':'e'}, 'e'));
+// console.log(countValuesInObj({'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}},'y':'e'}, 'e'));
 
 // 23. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
-var replaceKeysInObj = function(obj, key, newKey) {
-};
+var replaceKeysInObj = function(obj, key, newKey, newObj = {}) {
+//
+
+//assign newKey to new object
+
+//find all keys that are not key, and push those key:value pairs.
+
+newObj[newKey] = undefined;
+
+console.log(newObj);
+}
+
+//  for(var k in obj){
+//    if (k === key) {
+//
+//     obj[newKey] = obj[k];
+//   // console.log(obj);
+// }
+//   if (typeof obj[k] === "object") {
+//     replaceKeysInObj(obj[k], key, newKey, newObj)
+//   }
+//
+// }
+//
+// }
+//
+//   }
+// }
+//   return extend(obj, newObj);
+// }
+  // var secondObj = {};
+  // unction iterateObj(obj){
+  //   for(var k in obj){
+  //     if(obj.hasOwnProperty(k)){
+  //       if(typeof obj[k] === 'object'){
+  //         return replaceKeysInObj(obj[k]);
+  //       }
+  //       else if(secondObj[k]!=undefined){
+  //         obj[k] = secondObj[k]
+  //         console.log(secondObj);
+  //       }
+  //     }
+  //   }
+  // }
+  // // replaceKeysInObj(obj)
+  //
+  // console.log(obj);
+
+
+//   var convertKey = function(key_to_convert, key_to_replace) {
+//
+//        if (key.indexOf(obj) != -1) {
+//            key = newKey.replace(/_/g,'-');
+//           //  key = stringToCamelCase(key_to_convert);
+//           obj[key] = obj[key];
+//            delete obj[newKey];
+//        }
+//    }
+//    var i = 0;
+//        for (var key in item_to_convert) {
+//            if (typeof item_to_convert[key] != 'undefined') {
+//                if (typeof item_to_convert[key] === 'object' && !(item_to_convert[key] instanceof Array)) {
+//                    self.ConvertKeysToCamelCase(item_to_convert[key]);
+//            }
+//            if (item_to_convert[key] instanceof Array) {
+//                for (var i = 0; i < item_to_convert[key].length; i++) {
+//                    self.ConvertKeysToCamelCase(item_to_convert[key][i]);
+//                }
+//            }
+//            var temp_string = key;
+//            convertKey(temp_string, key);
+//        }
+//        i = ++i;
+//    }
+//    return item_to_convert;
+// };
+
+//   var mapNewKey = {
+//   key: newKey
+// };
+//
+// // function refit_keys(o){
+//     // var build, destKey, ix, value;
+//
+//     // build = {};
+//     for (k in obj) {
+//         // Get the destination key
+//         mapNewKey[newKey] || k;
+//
+//         // Get the value
+//         newKey = obj[key];
+//
+//         // If this is an object, recurse
+//         if (typeof value === "object") {
+//             replaceKeysInObj(value, key, newKey);
+//         }
+//
+//         // Set it on the result using the destination key
+//         obj[newKey] = newKey;
+//     }
+//     return obj;
+// }
+
+// There are a couple of problems there.
+// One is that you're falling prey to The Horror of Implicit Globals by failing to declare your build variable in the function.
+// But the logic has issues as well, here's a minimal reworking:
+// var keys_short = ['ch','d','u','tz'];
+// var keys_long = ['children','data','user_id','time_zone'];
+// function refit_keys(o, ){
+  // var obje;
+  // obje = {}
+//   for (var k in obj) {
+//     // console.log(k);
+//     // console.log(k === key)
+//     if (k === key) {
+//     // if (obj.hasOwnProperty(key)) {
+//       // console.log(key);
+//       // newKey= obj[newKey];
+//         //
+//         // obj.newKey;
+//         // obj.newKey = key;
+//                 // obj[key] = value;
+//         // console.log(value)
+//         // console.log(obj.key);
+//         // console.log(newKey);
+//     // }
+//
+//
+//
+//     if (typeof obj[key] === "object") {
+//         replaceKeysInObj(obj.key, key, newKey);
+//     }
+//     // obj[newKey] = obj[key];
+//   }
+// }
+//
+//   return obj;
+//     var build, key, destKey, ix, value;
+//
+//     build = {};
+//     for (key in obj) {
+//         // Get the destination key
+//         ix = keys_short.indexOf(key);
+//         destKey = ix === -1 ? key : keys_long[ix];
+//
+//         // Get the value
+//         value = o[key];
+//
+//         // If this is an object, recurse
+//         if (typeof value === "object") {
+//             value = refit_keys(value);
+//         }
+//
+//         // Set it on the result using the destination key
+//         build[destKey] = value;
+//     }
+//     return build;
+// }
+//
+
+
+// };
+
+// console.log(replaceKeysInObj({'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}}, 'y':'e'}, 'e', 'f'));
 
 // 24. Get the first n Fibonacci numbers.  In the Fibonacci Sequence, each subsequent
 // number is the sum of the previous two.
@@ -494,18 +648,32 @@ let word = array[0][0].toUpperCase() + array[0].slice(1);
 }
 
 // 28. Return the sum of all even numbers in an object containing nested objects.
-// var obj1 = {
-//   a: 2,
-//   b: {b: 2, bb: {b: 3, bb: {b: 2}}},
-//   c: {c: {c: 2}, cc: 'ball', ccc: 5},
-//   d: 1,
-//   e: {e: {e: 2}, ee: 'car'}
-// };
+var obj1 = {
+  a: 2,
+  b: {b: 2, bb: {b: 3, bb: {b: 2}}},
+  c: {c: {c: 2}, cc: 'ball', ccc: 5},
+  d: 1,
+  e: {e: {e: 2}, ee: 'car'}
+};
 // nestedEvenSum(obj1); // 10
-var nestedEvenSum = function(obj) {
+var nestedEvenSum = function(obj, counter = []) {
+
+  for (var key in obj) {
+
+    if (Number(obj[key]%2) === 0) {
+        counter.push(obj[key]);
+    }
+    if (typeof obj[key] === "object") {
+      nestedEvenSum(obj[key], counter);
+    }
+  }
+
+  return counter.reduce(function(memo, next) {
+    return memo + next;
+  });
 
 };
-
+// console.log(nestedEvenSum(obj1));
 // 29. Flatten an array containing nested arrays.
 // Example: flatten([1,[2],[3,[[4]]],5]); // [1,2,3,4,5]
 var flatten = function(arrays) {
@@ -531,6 +699,7 @@ var letterTally = function(str, obj = {}) {
   // console.log(str);
   // console.log(str);
   // console.log(obj);
+
 
   if (str.length === 0) {
     return obj;
@@ -614,8 +783,28 @@ var compress = function(list, result = []) {
 // itself.
 // Example: augmentElements([[],[3],[7]], 5); // [[5],[3,5],[7,5]]
 var augmentElements = function(array, aug) {
-};
+  console.log(array);
+  if (array.length === 0) {
+    return;
+  }
+  array.forEach(function(el){
+    el.push(aug);
 
+    if(typeof el === "array") {
+    augmentElements(array.slice(el), aug)
+    }
+  })
+  // for (var i =0; i < array.length; i++) {
+  //       array[i].push(aug);
+  //       // console.log(array[i]);
+  //       if(typeof array[i] === "array") {
+  //        augmentElements(array.slice(1), aug)
+  //        }
+  // }
+
+return array;
+};
+console.log(augmentElements([[],[3],[7]], 5));
 // 33. Reduce a series of zeroes to a single 0.
 // minimizeZeroes([2,0,0,0,1,4]) // [2,0,1,4]
 // minimizeZeroes([2,0,0,0,1,0,0,4]) // [2,0,1,0,4]
